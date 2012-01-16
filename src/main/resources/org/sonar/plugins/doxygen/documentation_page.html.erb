@@ -1,0 +1,21 @@
+<% error_message=@snapshot.root_snapshot.measure("error_message")          %>
+<% warning_message=@snapshot.root_snapshot.measure("warning_message")      %>
+<% disabled=@snapshot.root_snapshot.measure("display_doc")                 %>
+
+<% if error_message                                                           %>
+    <div class="error" id="error"><span id="errormsg"><%= error_message.data %></span></div>
+<% else                                                                       %>
+<%    if warning_message                                                      %>
+     <div class="warning" id="warning"><span id="warningmsg"><%= warning_message.data %></span></div>
+<%    end                                                                     %>
+<%    if disabled                                                             %>
+<%       url_link=Property.value("sonar.doxygen.deploymentUrl", nil, nil)       %>
+<%       if url_link.end_with?("/")==false                                    %>
+<%          url_link=url_link+"/"                                             %>
+<%       end                                                                  %>
+<%       url_link=url_link+measure("doxygen_url").data                        %>
+      <p><iframe src="<%= url_link -%>" frameborder="0" style="border-width:1px;border-style:solid;border-collapse:collapse;border-color:grey;" width="100%" height="800" /></p>
+<%    else                                                                    %>
+     <div class="warning" id="warning"><span id="warningmsg">Documentation Generation is disabled. <br />Set the property 'sonar.doxygen.generateDocumentation' to <i>enable</i> in order to enable documentation generation and run an analysis.</span></div>
+<%    end                                                                     %>
+<% end                                                                        %>
