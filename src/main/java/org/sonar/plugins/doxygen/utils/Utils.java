@@ -1,7 +1,7 @@
 /*
- * Sonar DOXYGEN Plugin.
+ * Sonar, open source software quality management tool.
  * Copyright (C) 2009 SonarSource
- * dev@sonar.codehaus.org
+ * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,113 +20,114 @@
 
 package org.sonar.plugins.doxygen.utils;
 
-import java.io.File;
-import java.io.IOException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConversionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
 
+import java.io.File;
+import java.io.IOException;
+
 public final class Utils {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(Utils.class.getName());
+  public static final Logger LOGGER = LoggerFactory.getLogger(Utils.class.getName());
 
-    /**
-     * Don't instantiate this object
-     */
-    private Utils() {
-    }
+  /**
+   * Don't instantiate this object
+   */
+  private Utils() {
+  }
 
-    // =========================================================================
-    //                            SONAR PROJECT UTILS
-    // =========================================================================
-    public static String getSourcesPath(final Project project) {
-        StringBuilder builder = new StringBuilder();
+  // =========================================================================
+  // SONAR PROJECT UTILS
+  // =========================================================================
+  public static String getSourcesPath(final Project project) {
+    StringBuilder builder = new StringBuilder();
 
-        if (project != null) {
-            if (project.getModules() == null || project.getModules().isEmpty()) {
-                if (project.getFileSystem().getSourceDirs() != null) {
-                    for (File source : project.getFileSystem().getSourceDirs()) {
-                        builder.append("\"").append(source.getAbsolutePath().replaceAll("\\\\", "/")).append("\" ");
-                    }
-                }
-            } else {
-                for (Project module : project.getModules()) {
-                    builder.append(getSourcesPath(module));
-                }
-            }
+    if (project != null) {
+      if (project.getModules() == null || project.getModules().isEmpty()) {
+        if (project.getFileSystem().getSourceDirs() != null) {
+          for (File source : project.getFileSystem().getSourceDirs()) {
+            builder.append("\"").append(source.getAbsolutePath().replaceAll("\\\\", "/")).append("\" ");
+          }
         }
-
-        return builder.toString();
-    }
-
-    // =========================================================================
-    //                         SCRIPT MANAGEMENT UTILS
-    // =========================================================================
-    public static void executeDosCommand(final String command) {
-        try {
-            Process process = Runtime.getRuntime().exec(command);
-
-            ThreadInputStream inputStream = new ThreadInputStream(process.getInputStream(), false);
-            ThreadInputStream errorStream = new ThreadInputStream(process.getErrorStream(), true);
-
-            inputStream.start();
-            errorStream.start();
-            while (inputStream.getState() != inputStream.getState().TERMINATED) {
-                Thread.sleep(10);
-            }
-
-        } catch (IOException e) {
-            LOGGER.error("executeDosCommand : " + e.getMessage());
-        } catch (InterruptedException e) {
-            LOGGER.error("executeDosCommand : " + e.getMessage());
+      } else {
+        for (Project module : project.getModules()) {
+          builder.append(getSourcesPath(module));
         }
+      }
     }
 
-    /**
-     * Load a boolean property configuration.
-     * If the property is null, return the default value.
-     * If the property is badly set, log a error.
-     * 
-     * @param config The configuration
-     * @param property The property
-     * @param defaultValue The default value
-     * @return Return the value of property
-     */
-    public static boolean getBooleanValue(Configuration config, String property, boolean defaultValue) {
-        boolean result = false;
-        try {
-            result = config.getBoolean(property, defaultValue);
-        } catch (ConversionException e) {
-            LOGGER.error("The Project property '" + property + "' is badly set. "
+    return builder.toString();
+  }
+
+  // =========================================================================
+  // SCRIPT MANAGEMENT UTILS
+  // =========================================================================
+  public static void executeDosCommand(final String command) {
+    try {
+      Process process = Runtime.getRuntime().exec(command);
+
+      ThreadInputStream inputStream = new ThreadInputStream(process.getInputStream(), false);
+      ThreadInputStream errorStream = new ThreadInputStream(process.getErrorStream(), true);
+
+      inputStream.start();
+      errorStream.start();
+      while (inputStream.getState() != inputStream.getState().TERMINATED) {
+        Thread.sleep(10);
+      }
+
+    } catch (IOException e) {
+      LOGGER.error("executeDosCommand : " + e.getMessage());
+    } catch (InterruptedException e) {
+      LOGGER.error("executeDosCommand : " + e.getMessage());
+    }
+  }
+
+  /**
+   * Load a boolean property configuration.
+   * If the property is null, return the default value.
+   * If the property is badly set, log a error.
+   * 
+   * @param config The configuration
+   * @param property The property
+   * @param defaultValue The default value
+   * @return Return the value of property
+   */
+  public static boolean getBooleanValue(Configuration config, String property, boolean defaultValue) {
+    boolean result = false;
+    try {
+      result = config.getBoolean(property, defaultValue);
+    } catch (ConversionException e) {
+      LOGGER.error("The Project property '" + property + "' is badly set. "
                     + "Set correctly this property in SONAR");
-        }
-
-        return result;
     }
 
-    public static boolean deleteDir(File dir) {
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
+    return result;
+  }
 
-        // The directory is now empty so delete it
-        return dir.delete();
+  public static boolean deleteDir(File dir) {
+    if (dir.isDirectory()) {
+      String[] children = dir.list();
+      for (int i = 0; i < children.length; i++) {
+        boolean success = deleteDir(new File(dir, children[i]));
+        if (!success) {
+          return false;
+        }
+      }
     }
 
-    public static String getFormattedPath(String path) {
-        String result = path;
-        if (path.charAt(path.length() - 1) == '/') {
-            result = path.substring(0, path.length() - 1);
-        }
+    // The directory is now empty so delete it
+    return dir.delete();
+  }
 
-        return result;
+  public static String getFormattedPath(String path) {
+    String result = path;
+    if (path.charAt(path.length() - 1) == '/') {
+      result = path.substring(0, path.length() - 1);
     }
+
+    return result;
+  }
 }

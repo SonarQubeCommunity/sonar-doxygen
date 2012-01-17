@@ -1,7 +1,7 @@
 /*
- * Sonar DOXYGEN Plugin.
+ * Sonar, open source software quality management tool.
  * Copyright (C) 2009 SonarSource
- * dev@sonar.codehaus.org
+ * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,46 +20,46 @@
 
 package org.sonar.plugins.doxygen.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ThreadInputStream extends Thread {
-    
-    public static final Logger LOGGER = LoggerFactory.getLogger(ThreadInputStream.class.getName());
 
-    private InputStream stream;
-    private boolean errorStream;
+  public static final Logger LOGGER = LoggerFactory.getLogger(ThreadInputStream.class.getName());
 
-    public ThreadInputStream(InputStream stream, boolean errorStream) {
-        this.stream = stream;
-        this.errorStream = errorStream;
-    }
+  private InputStream stream;
+  private boolean errorStream;
 
-    public void run() {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(stream));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                if (errorStream) {
-                    LOGGER.error(line);
-                }
+  public ThreadInputStream(InputStream stream, boolean errorStream) {
+    this.stream = stream;
+    this.errorStream = errorStream;
+  }
 
-            }
-        } catch (IOException e) {
-            LOGGER.error("executeDosCommand : " + e.getMessage());
-        } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                LOGGER.error("executeDosCommand : " + e.getMessage());
-            }
-
+  public void run() {
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new InputStreamReader(stream));
+      String line = "";
+      while ((line = reader.readLine()) != null) {
+        if (errorStream) {
+          LOGGER.error(line);
         }
-    }
-}
 
+      }
+    } catch (IOException e) {
+      LOGGER.error("executeDosCommand : " + e.getMessage());
+    } finally {
+      try {
+        reader.close();
+      } catch (IOException e) {
+        LOGGER.error("executeDosCommand : " + e.getMessage());
+      }
+
+    }
+  }
+}

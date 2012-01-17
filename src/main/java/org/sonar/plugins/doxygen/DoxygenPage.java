@@ -1,7 +1,7 @@
 /*
- * Sonar DOXYGEN Plugin.
+ * Sonar, open source software quality management tool.
  * Copyright (C) 2009 SonarSource
- * dev@sonar.codehaus.org
+ * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,19 +32,18 @@ import org.sonar.api.web.UserRole;
 @UserRole(UserRole.VIEWER)
 public class DoxygenPage extends AbstractRubyTemplate implements RubyRailsPage {
 
-    @Override
-    protected String getTemplatePath() {
-          
-        return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
-    }
+  @Override
+  protected String getTemplatePath() {
 
-    public String getId() {
-        return getClass().getName();
-    }
+    return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
+  }
 
-    public String getTitle() {
-        return "Documentation";
-    }
-    
+  public String getId() {
+    return getClass().getName();
+  }
+
+  public String getTitle() {
+    return "Documentation";
+  }
+
 }
-

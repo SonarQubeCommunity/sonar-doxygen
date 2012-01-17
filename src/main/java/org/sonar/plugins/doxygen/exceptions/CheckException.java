@@ -1,7 +1,7 @@
 /*
- * Sonar DOXYGEN Plugin.
+ * Sonar, open source software quality management tool.
  * Copyright (C) 2009 SonarSource
- * dev@sonar.codehaus.org
+ * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,10 +21,9 @@
 package org.sonar.plugins.doxygen.exceptions;
 
 public class CheckException extends Exception {
-    
-    public CheckException(final String message) {
-        super(message);
-    }
-    
-}
 
+  public CheckException(final String message) {
+    super(message);
+  }
+
+}
