@@ -47,10 +47,10 @@ public final class Constants {
   // WEB SERVER DEPLOYMENT PATH
   // =========================================================================
   public static final String DEPLOYMENT_PATH = "sonar.doxygen.deploymentPath";
-  public static final String DEPLOYMENT_PATH_NAME = "Documentation Path generation";
+  public static final String DEPLOYMENT_PATH_NAME = "Documentation Path Generation";
   public static final String DEPLOYMENT_PATH_DESC =
             "Directory path where the documentation will be generated.<br />"
-              + "If Sonar server is used to access the documentation, the path should be set with: <br />"
+              + "If Sonar server is used to access the documentation, the path should be set to: <br />"
               + "<i><sonar.installation.dir>/war/sonar-server</i>.";
 
   // =========================================================================
@@ -58,6 +58,7 @@ public final class Constants {
   // =========================================================================
   public static final String EXCLUDE_FILES = "sonar.doxygen.excludeFiles";
   public static final String EXCLUDE_FILES_NAME = "Excludes Specific files";
+  public static final String EXCLUDE_FILES_DESC = "Coma separated list";
 
   // =========================================================================
   // CUSTOM PATH

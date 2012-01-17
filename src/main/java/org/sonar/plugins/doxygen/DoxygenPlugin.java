@@ -44,7 +44,7 @@ import java.util.List;
         global = false, project = true),
 
 @Property(key = Constants.EXCLUDE_FILES, name = Constants.EXCLUDE_FILES_NAME,
-        global = false, project = true),
+        description = Constants.EXCLUDE_FILES_DESC, global = false, project = true),
 
 @Property(key = Constants.CUSTOM_PATH, name = Constants.CUSTOM_PATH_NAME,
         description = Constants.CUSTOM_PATH_DESC, project = true),
