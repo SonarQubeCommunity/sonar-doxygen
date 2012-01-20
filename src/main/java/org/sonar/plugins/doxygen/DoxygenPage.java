@@ -29,7 +29,7 @@ import org.sonar.api.web.UserRole;
 
 @ResourceLanguage(Java.KEY)
 @NavigationSection({NavigationSection.RESOURCE})
-@UserRole(UserRole.VIEWER)
+@UserRole(UserRole.CODEVIEWER)
 public class DoxygenPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   @Override

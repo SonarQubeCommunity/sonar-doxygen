@@ -66,22 +66,22 @@ public class DoxygenProject {
     final String defaultConfigPath = confPath + "/" + Constants.DEFAULT_CONFIG_NAME;
     final String configPath = confPath + "/" + Constants.CONFIG_NAME;
 
-    // Si le répertoire documentation n'existe pas dans le répertoire target,
-    // il est créé
+    // if documentation directory doesn't exist in target directory,
+    // create it
     File file = new File(confPath);
     if (!file.exists() && !file.mkdirs()) {
       return false;
     }
 
-    // Le fichier de configuration par défaut a-t-il déjà été généré?
-    // Si non, génération de la configuration par défaut.
+    // The default configuration file has already been generated?
+    // If not, generation of the default configuration.
     file = new File(defaultConfigPath);
     if (!file.exists()) {
       generateDefaultConfiguration(defaultConfigPath);
     }
 
-    // Si le fichier config.properties existe dans le répertoire target\documentation,
-    // il est supprimé
+    // if file config.properties exist in target\documentation directory,
+    // suppress it
     file = new File(configPath);
     if (file.exists() && !file.delete()) {
       LOGGER.error("An error occurred when deleting the configuration file.");
@@ -89,7 +89,7 @@ public class DoxygenProject {
     }
 
     try {
-      // Création du fichier de configuration final
+      // Create final configuration file
       Map<String, String> properties = initProperties(project.getConfiguration());
       properties.put("PROJECT_NAME", project.getName());
       properties.put("OUTPUT_DIRECTORY", "\"" + confPath + "\"");
@@ -110,14 +110,14 @@ public class DoxygenProject {
     builder.append(" \"");
     builder.append(path);
     builder.append("\"");
-    // Création d'un nouveau fichier de configuration
+    // Create new configuration file
     Utils.executeDosCommand(builder.toString());
   }
 
   private void generateConfiguration(final String defaultPath, final String path, final Map<String, String> properties)
             throws IOException {
 
-    // Génération du fichier de configuration
+    // Generate configuration file
     File configFile = new File(path);
     if (!configFile.exists()) {
       configFile.createNewFile();
@@ -132,7 +132,7 @@ public class DoxygenProject {
       String ligne;
       while ((ligne = reader.readLine()) != null) {
         int equalsPosition = ligne.indexOf('=');
-        // Si on traite une ligne de propriété
+        // If we treat a property line
         if (equalsPosition != -1) {
           for (String propertyKey : properties.keySet()) {
             if (propertyKey.equals(ligne.substring(0, equalsPosition).trim())) {

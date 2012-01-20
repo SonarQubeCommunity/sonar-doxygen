@@ -29,7 +29,7 @@ import org.sonar.api.web.UserRole;
 
 @ResourceLanguage(Java.KEY)
 @NavigationSection({NavigationSection.RESOURCE_TAB})
-@UserRole(UserRole.VIEWER)
+@UserRole(UserRole.CODEVIEWER)
 public class DoxygenTab extends AbstractRubyTemplate implements RubyRailsPage {
 
   @Override
