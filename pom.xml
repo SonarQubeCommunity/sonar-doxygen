@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>10</version>
     <relativePath>../parent</relativePath>
   </parent>
-  
+
   <artifactId>sonar-doxygen-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>0.1-SNAPSHOT</version>
-  <name>Doxygen</name>
+  <name>Sonar Doxygen Plugin</name>
   <description>Generate project documentation</description>
-
-  <properties>
-    <sonar.version>2.11</sonar.version>
-    <sonar.pluginName>Doxygen</sonar.pluginName>
-    <sonar.pluginClass>org.sonar.plugins.doxygen.DoxygenPlugin</sonar.pluginClass>
-  </properties>
 
   <organization>
     <name>SonarSource</name>
@@ -32,13 +26,27 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/doxygen</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/doxygen</developerConnection>
     <url>http://svn.sonar-plugins.codehaus.org</url>
   </scm>
-  
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/15460</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Bamboo</system>
+    <url>http://bamboo.ci.codehaus.org/browse/SONAR-DOXYGEN</url>
+  </ciManagement>
+
+  <properties>
+    <sonar.version>2.11</sonar.version>
+    <sonar.pluginName>Doxygen</sonar.pluginName>
+    <sonar.pluginClass>org.sonar.plugins.doxygen.DoxygenPlugin</sonar.pluginClass>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -46,9 +54,7 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
-    
-    <!-- add your dependencies here -->
-    
+
     <!-- unit tests -->
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -57,5 +63,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
 </project>
