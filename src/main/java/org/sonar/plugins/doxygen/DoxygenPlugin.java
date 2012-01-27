@@ -64,6 +64,7 @@ public class DoxygenPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getKey() {
     return "Documentation";
   }
@@ -71,6 +72,7 @@ public class DoxygenPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getName() {
     return "Plugin Documentation";
   }
@@ -78,6 +80,7 @@ public class DoxygenPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getDescription() {
     return "Generate project documentation";
   }

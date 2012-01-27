@@ -52,12 +52,8 @@ public class DoxygenProject {
 
     if (generateDoxygenConfiguration(project)) {
       LOGGER.info("### Generating documentation ###");
-      StringBuilder builder = new StringBuilder();
-      builder.append(Constants.DOXYGEN_COMMAND);
-      builder.append(" \"");
-      builder.append(confPath).append("/").append(Constants.CONFIG_NAME);
-      builder.append("\"");
-      Utils.executeDosCommand(builder.toString());
+      String[] command = {Constants.DOXYGEN_COMMAND, confPath + "/" + Constants.CONFIG_NAME};
+      Utils.executeCommand(command);
     }
   }
 
@@ -104,18 +100,12 @@ public class DoxygenProject {
   }
 
   private void generateDefaultConfiguration(final String path) {
-    StringBuilder builder = new StringBuilder();
-    builder.append(Constants.DOXYGEN_COMMAND);
-    builder.append(" -s -g");
-    builder.append(" \"");
-    builder.append(path);
-    builder.append("\"");
-    // Create new configuration file
-    Utils.executeDosCommand(builder.toString());
+    String[] command = {Constants.DOXYGEN_COMMAND, "-s", "-g", path};
+    Utils.executeCommand(command);
   }
 
   private void generateConfiguration(final String defaultPath, final String path, final Map<String, String> properties)
-            throws IOException {
+      throws IOException {
 
     // Generate configuration file
     File configFile = new File(path);
@@ -172,10 +162,6 @@ public class DoxygenProject {
     properties.put("FILE_PATTERNS", "*.java");
     properties.put("HTML_TIMESTAMP", "NO");
     properties.put("CLASS_DIAGRAMS", "NO");
-    properties.put("HAVE_DOT", "YES");
-    properties.put("DOT_NUM_THREADS", "4");
-    properties.put("DOT_FONTSIZE", "7");
-    properties.put("DOT_CLEANUP", "NO");
 
     if (htmlCustomPath != null) {
       properties.put("HTML_HEADER", htmlCustomPath + "/header.html");
@@ -193,22 +179,34 @@ public class DoxygenProject {
       properties.put("EXCLUDE_PATTERNS", builder.toString());
     }
 
+    boolean withDot = false;
+
     if (Utils.getBooleanValue(config, Constants.CLASS_GRAPH, Constants.CLASS_GRAPH_DV)) {
       properties.put("CLASS_GRAPH", "YES");
+      withDot = true;
     } else {
       properties.put("CLASS_GRAPH", "NO");
     }
 
     if (Utils.getBooleanValue(config, Constants.CALL_GRAPH, Constants.CALL_GRAPH_DV)) {
       properties.put("CALL_GRAPH", "YES");
+      withDot = true;
     } else {
       properties.put("CALL_GRAPH", "NO");
     }
 
     if (Utils.getBooleanValue(config, Constants.CALLER_GRAPH, Constants.CALLER_GRAPH_DV)) {
       properties.put("CALLER_GRAPH", "YES");
+      withDot = true;
     } else {
       properties.put("CALLER_GRAPH", "NO");
+    }
+
+    if (withDot) {
+      properties.put("HAVE_DOT", "YES");
+      properties.put("DOT_NUM_THREADS", "4");
+      properties.put("DOT_FONTSIZE", "7");
+      properties.put("DOT_CLEANUP", "NO");
     }
 
     return properties;

@@ -65,7 +65,7 @@ public final class Utils {
   // =========================================================================
   // SCRIPT MANAGEMENT UTILS
   // =========================================================================
-  public static void executeDosCommand(final String command) {
+  public static void executeCommand(final String[] command) {
     try {
       Process process = Runtime.getRuntime().exec(command);
 

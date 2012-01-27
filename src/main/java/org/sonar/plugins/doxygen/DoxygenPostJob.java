@@ -154,7 +154,7 @@ public class DoxygenPostJob implements PostJob {
     String path = config.getString(Constants.CUSTOM_PATH, null);
 
     // if (path != null) {
-    // TODO: contrôler l'existence des fichiers header.html, footer.html, doxygen.css
+    // contrôler l'existence des fichiers header.html, footer.html, doxygen.css
     // }
 
     return path;

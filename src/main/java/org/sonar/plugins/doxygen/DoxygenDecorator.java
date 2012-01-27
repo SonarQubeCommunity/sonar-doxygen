@@ -158,29 +158,29 @@ public class DoxygenDecorator implements Decorator {
 
   public void initMap() {
     map = new HashMap<Character, String>();
-    map.put(new Character('_'), "__");
-    map.put(new Character('-'), "-");
-    map.put(new Character(':'), "_1");
-    map.put(new Character('/'), "_2");
-    map.put(new Character('<'), "_3");
-    map.put(new Character('>'), "_4");
-    map.put(new Character('*'), "_5");
-    map.put(new Character('&'), "_6");
-    map.put(new Character('|'), "_7");
-    map.put(new Character('.'), "_8");
-    map.put(new Character('!'), "_9");
-    map.put(new Character(','), "_00");
-    map.put(new Character(' '), "_01");
-    map.put(new Character('{'), "_02");
-    map.put(new Character('}'), "_03");
-    map.put(new Character('?'), "_04");
-    map.put(new Character('^'), "_05");
-    map.put(new Character('%'), "_06");
-    map.put(new Character('('), "_07");
-    map.put(new Character(')'), "_08");
-    map.put(new Character('+'), "_09");
-    map.put(new Character('='), "_0A");
-    map.put(new Character('$'), "_0B");
+    map.put(Character.valueOf('_'), "__");
+    map.put(Character.valueOf('-'), "-");
+    map.put(Character.valueOf(':'), "_1");
+    map.put(Character.valueOf('/'), "_2");
+    map.put(Character.valueOf('<'), "_3");
+    map.put(Character.valueOf('>'), "_4");
+    map.put(Character.valueOf('*'), "_5");
+    map.put(Character.valueOf('&'), "_6");
+    map.put(Character.valueOf('|'), "_7");
+    map.put(Character.valueOf('.'), "_8");
+    map.put(Character.valueOf('!'), "_9");
+    map.put(Character.valueOf(','), "_00");
+    map.put(Character.valueOf(' '), "_01");
+    map.put(Character.valueOf('{'), "_02");
+    map.put(Character.valueOf('}'), "_03");
+    map.put(Character.valueOf('?'), "_04");
+    map.put(Character.valueOf('^'), "_05");
+    map.put(Character.valueOf('%'), "_06");
+    map.put(Character.valueOf('('), "_07");
+    map.put(Character.valueOf(')'), "_08");
+    map.put(Character.valueOf('+'), "_09");
+    map.put(Character.valueOf('='), "_0A");
+    map.put(Character.valueOf('$'), "_0B");
   }
 
 }
