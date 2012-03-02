@@ -1,21 +1,19 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2009 SonarSource
- * mailto:contact AT sonarsource DOT com
+ * Sonar Doxygen Plugin
+ * Copyright (C) 2012 David FRANCOIS
+ * dev@sonar.codehaus.org
  *
- * Sonar is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Sonar is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with Sonar; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.sonar.plugins.doxygen.utils;
@@ -105,7 +103,7 @@ public class DoxygenProject {
   }
 
   private void generateConfiguration(final String defaultPath, final String path, final Map<String, String> properties)
-      throws IOException {
+    throws IOException {
 
     // Generate configuration file
     File configFile = new File(path);
@@ -148,20 +146,20 @@ public class DoxygenProject {
 
   private Map<String, String> initProperties(final Configuration config) {
     Map<String, String> properties = new HashMap<String, String>();
-    properties.put("EXTRACT_ALL", "YES");
-    properties.put("RECURSIVE", "YES");
-    properties.put("GENERATE_LATEX", "NO");
-    properties.put("COLLABORATION_GRAPH", "NO");
-    properties.put("GROUP_GRAPH", "NO");
-    properties.put("INCLUDE_GRAPH", "NO");
-    properties.put("INCLUDED_GRAPH", "NO");
-    properties.put("GRAPHICAL_HIERARCHY", "NO");
-    properties.put("DIRECTORY_GRAPH", "NO");
-    properties.put("OPTIMIZE_OUTPUT_JAVA", "YES");
+    properties.put("EXTRACT_ALL", Constants.ENABLED);
+    properties.put("RECURSIVE", Constants.ENABLED);
+    properties.put("GENERATE_LATEX", Constants.DISABLED);
+    properties.put("COLLABORATION_GRAPH", Constants.DISABLED);
+    properties.put("GROUP_GRAPH", Constants.DISABLED);
+    properties.put("INCLUDE_GRAPH", Constants.DISABLED);
+    properties.put("INCLUDED_GRAPH", Constants.DISABLED);
+    properties.put("GRAPHICAL_HIERARCHY", Constants.DISABLED);
+    properties.put("DIRECTORY_GRAPH", Constants.DISABLED);
+    properties.put("OPTIMIZE_OUTPUT_JAVA", Constants.ENABLED);
     properties.put("TAB_SIZE", "4");
     properties.put("FILE_PATTERNS", "*.java");
-    properties.put("HTML_TIMESTAMP", "NO");
-    properties.put("CLASS_DIAGRAMS", "NO");
+    properties.put("HTML_TIMESTAMP", Constants.DISABLED);
+    properties.put("CLASS_DIAGRAMS", Constants.DISABLED);
 
     if (htmlCustomPath != null) {
       properties.put("HTML_HEADER", htmlCustomPath + "/header.html");
@@ -182,31 +180,31 @@ public class DoxygenProject {
     boolean withDot = false;
 
     if (Utils.getBooleanValue(config, Constants.CLASS_GRAPH, Constants.CLASS_GRAPH_DV)) {
-      properties.put("CLASS_GRAPH", "YES");
+      properties.put("CLASS_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
-      properties.put("CLASS_GRAPH", "NO");
+      properties.put("CLASS_GRAPH", Constants.DISABLED);
     }
 
     if (Utils.getBooleanValue(config, Constants.CALL_GRAPH, Constants.CALL_GRAPH_DV)) {
-      properties.put("CALL_GRAPH", "YES");
+      properties.put("CALL_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
-      properties.put("CALL_GRAPH", "NO");
+      properties.put("CALL_GRAPH", Constants.DISABLED);
     }
 
     if (Utils.getBooleanValue(config, Constants.CALLER_GRAPH, Constants.CALLER_GRAPH_DV)) {
-      properties.put("CALLER_GRAPH", "YES");
+      properties.put("CALLER_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
-      properties.put("CALLER_GRAPH", "NO");
+      properties.put("CALLER_GRAPH", Constants.DISABLED);
     }
 
     if (withDot) {
-      properties.put("HAVE_DOT", "YES");
+      properties.put("HAVE_DOT", Constants.ENABLED);
       properties.put("DOT_NUM_THREADS", "4");
       properties.put("DOT_FONTSIZE", "7");
-      properties.put("DOT_CLEANUP", "NO");
+      properties.put("DOT_CLEANUP", Constants.DISABLED);
     }
 
     return properties;

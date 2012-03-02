@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
+  
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>10</version>
     <relativePath>../parent</relativePath>
   </parent>
-
+  
   <artifactId>sonar-doxygen-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>0.1-SNAPSHOT</version>
   <name>Sonar Doxygen Plugin</name>
   <description>Generate project documentation</description>
+  <url>http://docs.codehaus.org/display/SONAR/Doxygen+plugin</url>
+  
+  <inceptionYear>2012</inceptionYear>
 
   <organization>
-    <name>SonarSource</name>
-    <url>http://www.sonarsource.com</url>
+    <name>David FRANCOIS</name>
   </organization>
-  <licenses>
-    <license>
-      <name>GNU LGPL 3</name>
-      <url>http://www.gnu.org/licenses/lgpl.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/doxygen</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/doxygen</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
-  </scm>
+  
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/15460</url>
   </issueManagement>
   <ciManagement>
-    <system>Bamboo</system>
+    <system>BAMBOO</system>
     <url>http://bamboo.ci.codehaus.org/browse/SONAR-DOXYGEN</url>
   </ciManagement>
-
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/doxygen</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/doxygen</developerConnection>
+    <url>http://svn.sonar-plugins.codehaus.org</url>
+  </scm>
+  
+  <licenses>
+    <license>
+      <name>Apache License 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  
   <properties>
     <sonar.version>2.11</sonar.version>
     <sonar.pluginName>Doxygen</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.doxygen.DoxygenPlugin</sonar.pluginClass>
+    <license.name>AL2</license.name>
   </properties>
-
+  
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -54,7 +57,9 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
-
+    
+    <!-- add your dependencies here -->
+    
     <!-- unit tests -->
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -63,5 +68,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  
 </project>
