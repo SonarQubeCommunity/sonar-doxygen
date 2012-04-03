@@ -101,6 +101,11 @@ public final class Constants {
    */
   public static final String CONFIG_NAME = "config" + CONFIG_EXTENSION;
 
+  /**
+   * Name of the final doxygen configuration file
+   */
+  public static final String DOXYGEN_DOMAIN = "Doxygen";
+  
   public static final String REPOSITORY_OUTPUT_DIR = "documentation";
 
   public static final String DOXYGEN_COMMAND = "doxygen";
