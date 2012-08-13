@@ -103,7 +103,7 @@ public class DoxygenProject {
   }
 
   private void generateConfiguration(final String defaultPath, final String path, final Map<String, String> properties)
-    throws IOException {
+      throws IOException {
 
     // Generate configuration file
     File configFile = new File(path);

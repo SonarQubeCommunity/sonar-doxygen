@@ -27,5 +27,5 @@ public class CheckException extends Exception {
   public CheckException(final String message, final Throwable except) {
     super(message, except);
   }
-  
+
 }

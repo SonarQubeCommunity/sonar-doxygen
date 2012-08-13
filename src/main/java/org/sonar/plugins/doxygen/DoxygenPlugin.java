@@ -31,30 +31,30 @@ import java.util.List;
  */
 @Properties({
 
-@Property(key = Constants.DEPLOYMENT_URL, name = Constants.DEPLOYMENT_URL_NAME,
-        description = Constants.DEPLOYMENT_URL_DESC),
+  @Property(key = Constants.DEPLOYMENT_URL, name = Constants.DEPLOYMENT_URL_NAME,
+    description = Constants.DEPLOYMENT_URL_DESC),
 
-@Property(key = Constants.DEPLOYMENT_PATH, name = Constants.DEPLOYMENT_PATH_NAME,
-        description = Constants.DEPLOYMENT_PATH_DESC),
+  @Property(key = Constants.DEPLOYMENT_PATH, name = Constants.DEPLOYMENT_PATH_NAME,
+    description = Constants.DEPLOYMENT_PATH_DESC),
 
-@Property(key = Constants.GENERATE_DOC_EXECUTION, defaultValue = Constants.GENERATE_DOC_EXECUTION_DV,
-        name = Constants.GENERATE_DOC_EXECUTION_NAME, description = Constants.GENERATE_DOC_EXECUTION_DESC,
-        global = false, project = true),
+  @Property(key = Constants.GENERATE_DOC_EXECUTION, defaultValue = Constants.GENERATE_DOC_EXECUTION_DV,
+    name = Constants.GENERATE_DOC_EXECUTION_NAME, description = Constants.GENERATE_DOC_EXECUTION_DESC,
+    global = false, project = true),
 
-@Property(key = Constants.EXCLUDE_FILES, name = Constants.EXCLUDE_FILES_NAME,
-        description = Constants.EXCLUDE_FILES_DESC, global = false, project = true),
+  @Property(key = Constants.EXCLUDE_FILES, name = Constants.EXCLUDE_FILES_NAME,
+    description = Constants.EXCLUDE_FILES_DESC, global = false, project = true),
 
-@Property(key = Constants.CUSTOM_PATH, name = Constants.CUSTOM_PATH_NAME,
-        description = Constants.CUSTOM_PATH_DESC, project = true),
+  @Property(key = Constants.CUSTOM_PATH, name = Constants.CUSTOM_PATH_NAME,
+    description = Constants.CUSTOM_PATH_DESC, project = true),
 
-@Property(key = Constants.CLASS_GRAPH, defaultValue = Constants.CLASS_GRAPH_DV + "",
-        name = Constants.CLASS_GRAPH_NAME, global = false, project = true),
+  @Property(key = Constants.CLASS_GRAPH, defaultValue = Constants.CLASS_GRAPH_DV + "",
+    name = Constants.CLASS_GRAPH_NAME, global = false, project = true),
 
-@Property(key = Constants.CALL_GRAPH, defaultValue = Constants.CALL_GRAPH_DV + "",
-        name = Constants.CALL_GRAPH_NAME, global = false, project = true),
+  @Property(key = Constants.CALL_GRAPH, defaultValue = Constants.CALL_GRAPH_DV + "",
+    name = Constants.CALL_GRAPH_NAME, global = false, project = true),
 
-@Property(key = Constants.CALLER_GRAPH, defaultValue = Constants.CALLER_GRAPH_DV + "",
-        name = Constants.CALLER_GRAPH_NAME, global = false, project = true)
+  @Property(key = Constants.CALLER_GRAPH, defaultValue = Constants.CALLER_GRAPH_DV + "",
+    name = Constants.CALLER_GRAPH_NAME, global = false, project = true)
 
 })
 public class DoxygenPlugin implements Plugin {
@@ -86,7 +86,7 @@ public class DoxygenPlugin implements Plugin {
   // This is where you're going to declare all your Sonar extensions
   public List getExtensions() {
     return Arrays.asList(DoxygenMetrics.class, DoxygenPostJob.class, DoxygenPage.class,
-                DoxygenTab.class, DoxygenDecorator.class);
+        DoxygenTab.class, DoxygenDecorator.class);
   }
 
   @Override

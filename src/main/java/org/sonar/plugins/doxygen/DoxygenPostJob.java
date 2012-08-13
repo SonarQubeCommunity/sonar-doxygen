@@ -29,6 +29,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.doxygen.exceptions.CheckException;
 import org.sonar.plugins.doxygen.utils.Constants;
 import org.sonar.plugins.doxygen.utils.DoxygenProject;
+import org.sonar.plugins.doxygen.utils.EncodeUtils;
 import org.sonar.plugins.doxygen.utils.Utils;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class DoxygenPostJob implements PostJob {
   public static final Logger LOGGER = LoggerFactory.getLogger(DoxygenPostJob.class.getName());
 
   public static enum ExecutionEnum {
-        DISABLE, KEEP, ENABLE
+    DISABLE, KEEP, ENABLE
   }
 
   private ExecutionEnum enabled;
@@ -59,10 +60,10 @@ public class DoxygenPostJob implements PostJob {
       } else if (ExecutionEnum.KEEP.equals(enabled)) {
         if (!new File(confPath).exists()) {
           sc.saveMeasure(new Measure(DoxygenMetrics.ERROR_MESSAGE,
-                            "Keep documentation activated: But documentation has not been generated."));
+              "Keep documentation activated: But documentation has not been generated."));
         } else {
           sc.saveMeasure(new Measure(DoxygenMetrics.WARNING_MESSAGE,
-                            "Keep documentation activated: The documentation is not up to date."));
+              "Keep documentation activated: The documentation is not up to date."));
         }
         sc.saveMeasure(new Measure(DoxygenMetrics.DISPLAY_DOC, "true"));
       } else if (ExecutionEnum.ENABLE.equals(enabled)) {
@@ -91,7 +92,7 @@ public class DoxygenPostJob implements PostJob {
     } catch (CheckException ex) {
       success = false;
       sc.saveMeasure(new Measure(DoxygenMetrics.ERROR_MESSAGE,
-                    ex.getMessage()));
+          ex.getMessage()));
     }
 
     return success;
@@ -117,7 +118,7 @@ public class DoxygenPostJob implements PostJob {
       File file = new File(path);
       if (!file.exists()) {
         message = "The directory for property '" + property + "' is badly set. "
-                        + "Set it correctly in SONAR and run another analysis.";
+          + "Set it correctly in SONAR and run another analysis.";
       }
     }
 
@@ -137,7 +138,7 @@ public class DoxygenPostJob implements PostJob {
       result = ExecutionEnum.valueOf(temp.toUpperCase());
     } catch (IllegalArgumentException e) {
       String message = "The project property '" + Constants.GENERATE_DOC_EXECUTION + "' is badly set. "
-                    + "Set it correctly in SONAR and run another analysis.";
+        + "Set it correctly in SONAR and run another analysis.";
       LOGGER.error(message);
       throw new CheckException(message, e);
     }
@@ -158,7 +159,7 @@ public class DoxygenPostJob implements PostJob {
     builder.append("/");
     builder.append(Constants.REPOSITORY_OUTPUT_DIR);
     builder.append("/");
-    builder.append(project.getName());
+    builder.append(EncodeUtils.encodeProjectName(project.getName()));
 
     return builder.toString();
   }

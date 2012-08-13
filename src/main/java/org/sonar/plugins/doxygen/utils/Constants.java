@@ -27,10 +27,10 @@ public final class Constants {
   public static final String GENERATE_DOC_EXECUTION_DV = "disable";
   public static final String GENERATE_DOC_EXECUTION_NAME = "Generates Doxygen Documentation";
   public static final String GENERATE_DOC_EXECUTION_DESC =
-            "Possible values: <br/>"
-              + "<ul class='bullet'><li><i>disable</i>: do not generate documentation and delete existing documentation.</li>"
-              + "<li><i>keep</i>: do not generate documentation but keep previous documentation if existing.</li>"
-              + "<li><i>enable</i>: generate or regenerate documentation.</li></ul><br />";
+      "Possible values: <br/>"
+        + "<ul class='bullet'><li><i>disable</i>: do not generate documentation and delete existing documentation.</li>"
+        + "<li><i>keep</i>: do not generate documentation but keep previous documentation if existing.</li>"
+        + "<li><i>enable</i>: generate or regenerate documentation.</li></ul><br />";
 
   // =========================================================================
   // WEB SERVER DEPLOYMENT URL
@@ -38,8 +38,8 @@ public final class Constants {
   public static final String DEPLOYMENT_URL = "sonar.doxygen.deploymentUrl";
   public static final String DEPLOYMENT_URL_NAME = "Web Server Deployment URL";
   public static final String DEPLOYMENT_URL_DESC =
-            "URL to display the generated documentation. <br />"
-              + "Sonar server can be used to access the documentation.";
+      "URL to display the generated documentation. <br />"
+        + "Sonar server can be used to access the documentation.";
 
   // =========================================================================
   // WEB SERVER DEPLOYMENT PATH
@@ -47,9 +47,9 @@ public final class Constants {
   public static final String DEPLOYMENT_PATH = "sonar.doxygen.deploymentPath";
   public static final String DEPLOYMENT_PATH_NAME = "Documentation Path Generation";
   public static final String DEPLOYMENT_PATH_DESC =
-            "Directory path where the documentation will be generated.<br />"
-              + "If Sonar server is used to access the documentation, the path should be set to: <br />"
-              + "<i><sonar.installation.dir>/war/sonar-server</i>.";
+      "Directory path where the documentation will be generated.<br />"
+        + "If Sonar server is used to access the documentation, the path should be set to: <br />"
+        + "<i><sonar.installation.dir>/war/sonar-server</i>.";
 
   // =========================================================================
   // EXCLUDES FILES
@@ -105,14 +105,14 @@ public final class Constants {
    * Name of the final doxygen configuration file
    */
   public static final String DOXYGEN_DOMAIN = "Doxygen";
-  
+
   public static final String REPOSITORY_OUTPUT_DIR = "documentation";
 
   public static final String DOXYGEN_COMMAND = "doxygen";
 
   public static final String ERROR_MESSAGE = "error_message";
   public static final String WARNING_MESSAGE = "warning_message";
-  
+
   public static final String ENABLED = "YES";
   public static final String DISABLED = "NO";
 

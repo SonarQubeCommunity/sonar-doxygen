@@ -99,7 +99,7 @@ public final class Utils {
       result = config.getBoolean(property, defaultValue);
     } catch (ConversionException e) {
       LOGGER.error("The Project property '" + property + "' is badly set. "
-                    + "Set correctly this property in SONAR");
+        + "Set correctly this property in SONAR");
     }
 
     return result;
@@ -128,4 +128,5 @@ public final class Utils {
 
     return result;
   }
+
 }

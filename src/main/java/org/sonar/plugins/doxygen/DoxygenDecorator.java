@@ -29,11 +29,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.resources.ResourceUtils;
 import org.sonar.plugins.doxygen.utils.Constants;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import org.sonar.plugins.doxygen.utils.EncodeUtils;
 
 public class DoxygenDecorator implements Decorator {
 
@@ -44,8 +40,6 @@ public class DoxygenDecorator implements Decorator {
 
   private String projectName;
 
-  private Map<Character, String> map;
-
   private Language language;
 
   /**
@@ -54,7 +48,6 @@ public class DoxygenDecorator implements Decorator {
   public boolean shouldExecuteOnProject(Project project) {
     language = project.getLanguage();
     projectName = getRootProjectName(project);
-    initMap();
 
     return Java.INSTANCE.equals(language);
   }
@@ -74,14 +67,14 @@ public class DoxygenDecorator implements Decorator {
       if (Java.INSTANCE.equals(language)) {
         name = name.replaceAll("\\.", "::");
       }
-      tampon = encodeDoxygenFileName(name, PACKAGE) + ".html";
+      tampon = EncodeUtils.encodeDoxygenFileName(name, PACKAGE) + ".html";
       ok = true;
     } else if (ResourceUtils.isFile(rsrc)) {
       String name = rsrc.getLongName();
       if (Java.INSTANCE.equals(language)) {
         name = name.replaceAll("\\.", "::");
       }
-      tampon = encodeDoxygenFileName(name, CLASS) + ".html";
+      tampon = EncodeUtils.encodeDoxygenFileName(name, CLASS) + ".html";
       ok = true;
     }
 
@@ -89,7 +82,7 @@ public class DoxygenDecorator implements Decorator {
       StringBuilder builder = new StringBuilder();
       builder.append(Constants.REPOSITORY_OUTPUT_DIR);
       builder.append("/");
-      builder.append(projectName);
+      builder.append(EncodeUtils.encodeProjectName(projectName));
       builder.append("/html/");
       builder.append(tampon);
       dc.saveMeasure(new Measure(DoxygenMetrics.DOXYGEN_URL, builder.toString()));
@@ -102,83 +95,6 @@ public class DoxygenDecorator implements Decorator {
     } else {
       return getRootProjectName(project.getParent());
     }
-  }
-
-  private String encodeCharacter(char c) {
-    String result = map.get(c);
-    if (result == null) {
-      if (Character.isUpperCase(c)) {
-        result = "_" + Character.toLowerCase(c);
-      } else {
-        result = "" + c;
-      }
-    }
-    return result;
-  }
-
-  public String encodeDoxygenFileName(final String name, final String prefix) {
-    StringBuilder builder = new StringBuilder(prefix);
-    for (int i = 0; i < name.length(); i++) {
-      builder.append(encodeCharacter(name.charAt(i)));
-    }
-
-    String result = null;
-    if (builder.length() >= 128) {
-      result = builder.substring(0, 96) + encodeMd5(builder.toString());
-    } else {
-      result = builder.toString();
-    }
-    return result;
-  }
-
-  private String encodeMd5(String password) {
-    byte[] uniqueKey = password.getBytes();
-    byte[] hash = null;
-
-    try {
-      hash = MessageDigest.getInstance("MD5").digest(uniqueKey);
-    } catch (NoSuchAlgorithmException e) {
-      LOGGER.error("No MD5 support in this VM.");
-    }
-
-    StringBuilder hashString = new StringBuilder();
-    for (int i = 0; i < hash.length; i++) {
-      String hex = Integer.toHexString(hash[i]);
-      if (hex.length() == 1) {
-        hashString.append('0');
-        hashString.append(hex.charAt(hex.length() - 1));
-      } else {
-        hashString.append(hex.substring(hex.length() - 2));
-      }
-    }
-    return hashString.toString();
-  }
-
-  public void initMap() {
-    map = new HashMap<Character, String>();
-    map.put(Character.valueOf('_'), "__");
-    map.put(Character.valueOf('-'), "-");
-    map.put(Character.valueOf(':'), "_1");
-    map.put(Character.valueOf('/'), "_2");
-    map.put(Character.valueOf('<'), "_3");
-    map.put(Character.valueOf('>'), "_4");
-    map.put(Character.valueOf('*'), "_5");
-    map.put(Character.valueOf('&'), "_6");
-    map.put(Character.valueOf('|'), "_7");
-    map.put(Character.valueOf('.'), "_8");
-    map.put(Character.valueOf('!'), "_9");
-    map.put(Character.valueOf(','), "_00");
-    map.put(Character.valueOf(' '), "_01");
-    map.put(Character.valueOf('{'), "_02");
-    map.put(Character.valueOf('}'), "_03");
-    map.put(Character.valueOf('?'), "_04");
-    map.put(Character.valueOf('^'), "_05");
-    map.put(Character.valueOf('%'), "_06");
-    map.put(Character.valueOf('('), "_07");
-    map.put(Character.valueOf(')'), "_08");
-    map.put(Character.valueOf('+'), "_09");
-    map.put(Character.valueOf('='), "_0A");
-    map.put(Character.valueOf('$'), "_0B");
   }
 
 }
