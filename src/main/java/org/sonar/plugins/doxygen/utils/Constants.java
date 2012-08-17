@@ -49,7 +49,7 @@ public final class Constants {
   public static final String DEPLOYMENT_PATH_DESC =
       "Directory path where the documentation will be generated.<br />"
         + "If Sonar server is used to access the documentation, the path should be set to: <br />"
-        + "<i><sonar.installation.dir>/war/sonar-server</i>.";
+        + "<i>&lt;sonar.installation.dir&gt;/war/sonar-server</i>.";
 
   // =========================================================================
   // EXCLUDES FILES
