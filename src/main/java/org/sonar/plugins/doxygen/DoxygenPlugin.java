@@ -54,8 +54,14 @@ import java.util.List;
     name = Constants.CALL_GRAPH_NAME, global = false, project = true),
 
   @Property(key = Constants.CALLER_GRAPH, defaultValue = Constants.CALLER_GRAPH_DV + "",
-    name = Constants.CALLER_GRAPH_NAME, global = false, project = true)
+    name = Constants.CALLER_GRAPH_NAME, global = false, project = true),
 
+  @Property(key = Constants.DOXYGEN_PATH, defaultValue = Constants.DOXYGEN_PATH_DV + "",
+    name = Constants.DOXYGEN_PATH_NAME),
+
+  @Property(key = Constants.DOXYGEN_PROPERTIES_PATH, defaultValue = Constants.DOXYGEN_PROPERTIES_PATH_DV + "",
+    name = Constants.DOXYGEN_PROPERTIES_PATH_NAME, description = Constants.DOXYGEN_PROPERTIES_PATH_DESC,
+    global = false, project = true)     
 })
 public class DoxygenPlugin implements Plugin {
 

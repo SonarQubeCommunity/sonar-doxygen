@@ -68,13 +68,14 @@ public final class Utils {
       Process process = Runtime.getRuntime().exec(command);
 
       ThreadInputStream inputStream = new ThreadInputStream(process.getInputStream(), false);
-      ThreadInputStream errorStream = new ThreadInputStream(process.getErrorStream(), true);
+      ThreadInputStream errorStream = new ThreadInputStream(process.getErrorStream(), true);      
 
       inputStream.start();
       errorStream.start();
       while (inputStream.getState() != inputStream.getState().TERMINATED) {
         Thread.sleep(10);
       }
+      
 
     } catch (IOException e) {
       LOGGER.error("executeDosCommand : " + e.getMessage());
@@ -104,6 +105,28 @@ public final class Utils {
 
     return result;
   }
+  
+  /**
+   * Load a string property configuration.
+   * If the property is null, return the default value.
+   * If the property is badly set, log a error.
+   * 
+   * @param config The configuration
+   * @param property The property
+   * @param defaultValue The default value
+   * @return Return the value of property
+   */
+  public static String getStringValue(Configuration config, String property, String defaultValue) {
+    String result = "";
+    try {
+      result = config.getString(property, defaultValue);
+    } catch (ConversionException e) {
+      LOGGER.error("The Project property '" + property + "' is badly set. "
+        + "Set correctly this property in SONAR");
+    }
+    
+    return result;
+  }  
 
   public static boolean deleteDir(File dir) {
     if (dir.isDirectory()) {

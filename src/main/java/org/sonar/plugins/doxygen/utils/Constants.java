@@ -42,6 +42,26 @@ public final class Constants {
         + "Sonar server can be used to access the documentation.";
 
   // =========================================================================
+  // Doxygen Path
+  // =========================================================================
+  public static final String DOXYGEN_PATH = "sonar.doxygen.path";
+  public static final String DOXYGEN_PATH_DV = "doxygen";
+  public static final String DOXYGEN_PATH_NAME = "Path to doxygen application";
+  public static final String DOXYGEN_PATH_DESC =
+      "Path to doxygen application. If empty will use the one in PATH <br />";
+  
+  
+  // =========================================================================
+  // Doxygen Custom Properties
+  // =========================================================================
+  public static final String DOXYGEN_PROPERTIES_PATH = "sonar.doxygenProperties.path";
+  public static final String DOXYGEN_PROPERTIES_PATH_DV = "";
+  public static final String DOXYGEN_PROPERTIES_PATH_NAME = "Path to doxygen properties";
+  public static final String DOXYGEN_PROPERTIES_PATH_DESC =
+      "Path to doxygen properties file. It will overwrite only the default values. <br />";
+  
+  
+  // =========================================================================
   // WEB SERVER DEPLOYMENT PATH
   // =========================================================================
   public static final String DEPLOYMENT_PATH = "sonar.doxygen.deploymentPath";
@@ -86,6 +106,8 @@ public final class Constants {
   public static final boolean CALLER_GRAPH_DV = false;
   public static final String CALLER_GRAPH_NAME = "Generates Caller Graphs";
 
+  
+  
   /**
    * Extension for doxygen configuration file
    */

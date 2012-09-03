@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.sonar.plugins.doxygen;
 
 import org.slf4j.Logger;
@@ -33,68 +32,100 @@ import org.sonar.plugins.doxygen.utils.EncodeUtils;
 
 public class DoxygenDecorator implements Decorator {
 
-  public static final Logger LOGGER = LoggerFactory.getLogger(DoxygenDecorator.class.getName());
+    public static final Logger LOGGER = LoggerFactory.getLogger(DoxygenDecorator.class.getName());
+    public static final String PACKAGE = "namespace";
+    public static final String CLASS = "class";
+    private String projectName;
+    private Language language;
 
-  public static final String PACKAGE = "namespace";
-  public static final String CLASS = "class";
+    /**
+     * @see
+     * org.sonar.api.batch.Decorator#shouldExecuteOnProject(org.sonar.api.resources.Project)
+     */
+    public boolean shouldExecuteOnProject(Project project) {
+        language = project.getLanguage();
+        projectName = getRootProjectName(project);
 
-  private String projectName;
-
-  private Language language;
-
-  /**
-   * @see org.sonar.api.batch.Decorator#shouldExecuteOnProject(org.sonar.api.resources.Project) 
-   */
-  public boolean shouldExecuteOnProject(Project project) {
-    language = project.getLanguage();
-    projectName = getRootProjectName(project);
-
-    return Java.INSTANCE.equals(language);
-  }
-
-  /**
-   * @see org.sonar.api.batch.Decorator#decorate(org.sonar.api.resources.Resource, org.sonar.api.batch.DecoratorContext) 
-   */
-  public void decorate(Resource rsrc, DecoratorContext dc) {
-    boolean ok = false;
-    String tampon = null;
-
-    if (ResourceUtils.isRootProject(rsrc) || ResourceUtils.isModuleProject(rsrc)) {
-      tampon = "index.html";
-      ok = true;
-    } else if (ResourceUtils.isPackage(rsrc)) {
-      String name = rsrc.getName();
-      if (Java.INSTANCE.equals(language)) {
-        name = name.replaceAll("\\.", "::");
-      }
-      tampon = EncodeUtils.encodeDoxygenFileName(name, PACKAGE) + ".html";
-      ok = true;
-    } else if (ResourceUtils.isFile(rsrc)) {
-      String name = rsrc.getLongName();
-      if (Java.INSTANCE.equals(language)) {
-        name = name.replaceAll("\\.", "::");
-      }
-      tampon = EncodeUtils.encodeDoxygenFileName(name, CLASS) + ".html";
-      ok = true;
+        LOGGER.debug("lang Decorator for: " + language);
+        LOGGER.debug("aSet Decorator for: " + language.toString());
+        LOGGER.debug("key Decorator for: " + Java.KEY);
+        
+        if (isLanguageSupported(language.toString())) {
+            LOGGER.debug("Set Decorator for: " + language);
+            return true;
+        }
+        return false;
     }
 
-    if (ok) {
-      StringBuilder builder = new StringBuilder();
-      builder.append(Constants.REPOSITORY_OUTPUT_DIR);
-      builder.append("/");
-      builder.append(EncodeUtils.encodeProjectName(projectName));
-      builder.append("/html/");
-      builder.append(tampon);
-      dc.saveMeasure(new Measure(DoxygenMetrics.DOXYGEN_URL, builder.toString()));
-    }
-  }
+    public void decorate(Resource rsrc, DecoratorContext dc) {
+        String tampon = null;
 
-  private String getRootProjectName(Project project) {
-    if (project.getParent() == null) {
-      return project.getName();
-    } else {
-      return getRootProjectName(project.getParent());
-    }
-  }
+        if (Java.INSTANCE.equals(language)) {
+            tampon = createJavaTampon(rsrc, tampon);
+        }
+        if (language.toString().equals("c++")) {
+            tampon = createCppTampon(rsrc, tampon);
+        }
 
+        if (tampon != null) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(Constants.REPOSITORY_OUTPUT_DIR);
+            builder.append("/");
+            builder.append(EncodeUtils.encodeProjectName(projectName));
+            builder.append("/html/");
+            builder.append(tampon);
+
+            LOGGER.debug("DoxDecorator: Context Name: " + rsrc.getName());            
+            LOGGER.debug("DoxDecorator: Context Long Name: " + rsrc.getLongName());
+            LOGGER.debug("DoxDecorator: Link Found : " + builder.toString());
+
+            dc.saveMeasure(new Measure(DoxygenMetrics.DOXYGEN_URL, builder.toString()));
+        }
+    }
+
+    private boolean isLanguageSupported(String language) {
+        if (language.equalsIgnoreCase("c++")
+                || language.equalsIgnoreCase(Java.KEY)) {
+            return true;
+        }
+        return false;
+    }
+
+    private String createCppTampon(Resource rsrc, String tampon) {
+        if (ResourceUtils.isRootProject(rsrc) || ResourceUtils.isModuleProject(rsrc)) {
+            tampon = "index.html";
+
+        } else {
+            String name = rsrc.getName();
+            LOGGER.debug("ResourceUtils.isFile(rsrc): DoxDecorator: name: " + name);
+            tampon = EncodeUtils.encodeDoxygenFileName(name, "") + ".html";
+        }
+
+        return tampon;
+    }
+
+    private String createJavaTampon(Resource rsrc, String tampon) {
+        if (ResourceUtils.isRootProject(rsrc) || ResourceUtils.isModuleProject(rsrc)) {
+            tampon = "index.html";
+
+        } else if (ResourceUtils.isPackage(rsrc)) {
+            String name = rsrc.getName();
+            name = name.replaceAll("\\.", "::");
+            tampon = EncodeUtils.encodeDoxygenFileName(name, PACKAGE) + ".html";
+        } else if (ResourceUtils.isFile(rsrc)) {
+            String name = rsrc.getLongName();
+            name = name.replaceAll("\\.", "::");
+            tampon = EncodeUtils.encodeDoxygenFileName(name, CLASS) + ".html";
+        }
+
+        return tampon;
+    }
+
+    private String getRootProjectName(Project project) {
+        if (project.getParent() == null) {
+            return project.getName();
+        } else {
+            return getRootProjectName(project.getParent());
+        }
+    }
 }

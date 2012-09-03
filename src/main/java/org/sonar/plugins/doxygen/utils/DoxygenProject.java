@@ -18,29 +18,25 @@
 
 package org.sonar.plugins.doxygen.utils;
 
-import org.apache.commons.configuration.Configuration;
+import java.io.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import org.sonar.api.resources.Java;
 
 public class DoxygenProject {
-
+    
   public static final Logger LOGGER = LoggerFactory.getLogger(DoxygenProject.class.getName());
 
   private String confPath;
 
   private String htmlCustomPath;
 
+  private String[] ignoretags = {"EXTRACT_ALL", "INPUT", "PROJECT_NAME"};
+  
   public DoxygenProject(final String confPath, final String htmlCustomPath) {
     this.confPath = confPath;
     this.htmlCustomPath = htmlCustomPath;
@@ -50,7 +46,10 @@ public class DoxygenProject {
 
     if (generateDoxygenConfiguration(project)) {
       LOGGER.info("### Generating documentation ###");
-      String[] command = {Constants.DOXYGEN_COMMAND, confPath + "/" + Constants.CONFIG_NAME};
+                  
+      String[] command = {Utils.getStringValue(project.getConfiguration(), Constants.DOXYGEN_PATH, "") 
+              + "/" + Constants.DOXYGEN_COMMAND, confPath + "/" + Constants.CONFIG_NAME};
+                  
       Utils.executeCommand(command);
     }
   }
@@ -71,7 +70,7 @@ public class DoxygenProject {
     // If not, generation of the default configuration.
     file = new File(defaultConfigPath);
     if (!file.exists()) {
-      generateDefaultConfiguration(defaultConfigPath);
+      generateDefaultConfiguration(project, defaultConfigPath);
     }
 
     // if file config.properties exist in target\documentation directory,
@@ -84,10 +83,14 @@ public class DoxygenProject {
 
     try {
       // Create final configuration file
-      Map<String, String> properties = initProperties(project.getConfiguration());
+      Map<String, String> properties = initProperties(project);
       properties.put("PROJECT_NAME", project.getName());
       properties.put("OUTPUT_DIRECTORY", "\"" + confPath + "\"");
       properties.put("INPUT", Utils.getSourcesPath(project));
+      
+      // Read custom configuration file and overwrite the default if exist
+      overwriteWithCustomConfiguration(project, properties);
+      
       generateConfiguration(defaultConfigPath, configPath, properties);
     } catch (IOException e) {
       LOGGER.error("An error occurred when deleting the configuration file : " + e);
@@ -97,8 +100,38 @@ public class DoxygenProject {
     return true;
   }
 
-  private void generateDefaultConfiguration(final String path) {
-    String[] command = {Constants.DOXYGEN_COMMAND, "-s", "-g", path};
+    private void overwriteWithCustomConfiguration(Project project, Map<String, String> properties) throws IOException {
+        String pathcustom = Utils.getStringValue(project.getConfiguration(), Constants.DOXYGEN_PROPERTIES_PATH, "");        
+        LOGGER.debug("Try to Read Custom File: " + pathcustom);       
+        
+        if (!pathcustom.equals("") && (new File(pathcustom)).exists()) {
+            // read file if exists
+            FileReader fileReader = new FileReader(pathcustom);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] options = line.split("=");
+                if(options.length == 2) {
+                    // we dont want to mess with the input files for the project
+                    boolean skip = false;
+                    for(String tag : ignoretags) {
+                      if (options[0].trim().equals(tag)) {
+                          skip = true;
+                      }                                  
+                    }
+                    if (!skip) {
+                          properties.put(options[0].trim(), options[1].trim());
+                          LOGGER.debug("Overwrite Options: " + options[0].trim() + " = " + options[1].trim());                      
+                    }
+                }
+            }                    
+            bufferedReader.close();                  
+        }
+    }
+
+  private void generateDefaultConfiguration(Project project, final String path) {
+    String[] command = {Utils.getStringValue(project.getConfiguration(), Constants.DOXYGEN_PATH, "")
+            + "/" + Constants.DOXYGEN_COMMAND, "-s", "-g", path};
     Utils.executeCommand(command);
   }
 
@@ -144,7 +177,7 @@ public class DoxygenProject {
 
   }
 
-  private Map<String, String> initProperties(final Configuration config) {
+  private Map<String, String> initProperties(final Project project) {
     Map<String, String> properties = new HashMap<String, String>();
     properties.put("EXTRACT_ALL", Constants.ENABLED);
     properties.put("RECURSIVE", Constants.ENABLED);
@@ -155,9 +188,19 @@ public class DoxygenProject {
     properties.put("INCLUDED_GRAPH", Constants.DISABLED);
     properties.put("GRAPHICAL_HIERARCHY", Constants.DISABLED);
     properties.put("DIRECTORY_GRAPH", Constants.DISABLED);
-    properties.put("OPTIMIZE_OUTPUT_JAVA", Constants.ENABLED);
+    
+    properties.put("OPTIMIZE_OUTPUT_JAVA", Constants.DISABLED);
+    properties.put("OPTIMIZE_OUTPUT_FOR_C", Constants.DISABLED);
+    
+    if(project.getLanguage().toString().equals(Java.KEY)) {
+        properties.put("OPTIMIZE_OUTPUT_JAVA", Constants.ENABLED);
+    } 
+    if(project.getLanguage().toString().equals("c++")) {
+        properties.put("OPTIMIZE_OUTPUT_FOR_C", Constants.ENABLED);
+    } 
+    
     properties.put("TAB_SIZE", "4");
-    properties.put("FILE_PATTERNS", "*.java");
+    properties.put("FILE_PATTERNS", "");
     properties.put("HTML_TIMESTAMP", Constants.DISABLED);
     properties.put("CLASS_DIAGRAMS", Constants.DISABLED);
 
@@ -167,7 +210,7 @@ public class DoxygenProject {
       properties.put("HTML_STYLESHEET", htmlCustomPath + "/doxygen.css");
     }
 
-    final String[] excludes = config.getStringArray(Constants.EXCLUDE_FILES);
+    final String[] excludes = project.getConfiguration().getStringArray(Constants.EXCLUDE_FILES);
 
     if (excludes != null && excludes.length != 0) {
       StringBuilder builder = new StringBuilder();
@@ -179,21 +222,21 @@ public class DoxygenProject {
 
     boolean withDot = false;
 
-    if (Utils.getBooleanValue(config, Constants.CLASS_GRAPH, Constants.CLASS_GRAPH_DV)) {
+    if (Utils.getBooleanValue(project.getConfiguration(), Constants.CLASS_GRAPH, Constants.CLASS_GRAPH_DV)) {
       properties.put("CLASS_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
       properties.put("CLASS_GRAPH", Constants.DISABLED);
     }
 
-    if (Utils.getBooleanValue(config, Constants.CALL_GRAPH, Constants.CALL_GRAPH_DV)) {
+    if (Utils.getBooleanValue(project.getConfiguration(), Constants.CALL_GRAPH, Constants.CALL_GRAPH_DV)) {
       properties.put("CALL_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
       properties.put("CALL_GRAPH", Constants.DISABLED);
     }
 
-    if (Utils.getBooleanValue(config, Constants.CALLER_GRAPH, Constants.CALLER_GRAPH_DV)) {
+    if (Utils.getBooleanValue(project.getConfiguration(), Constants.CALLER_GRAPH, Constants.CALLER_GRAPH_DV)) {
       properties.put("CALLER_GRAPH", Constants.ENABLED);
       withDot = true;
     } else {
