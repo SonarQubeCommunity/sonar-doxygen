@@ -84,11 +84,12 @@ public class DoxygenDecorator implements Decorator {
     }
 
     private boolean isLanguageSupported(String language) {
+        boolean isSupported = false;
         if (language.equalsIgnoreCase("c++")
                 || language.equalsIgnoreCase(Java.KEY)) {
-            return true;
+            isSupported = true;
         }
-        return false;
+        return isSupported;
     }
 
     private String createCppTampon(Resource rsrc, String tampon) {

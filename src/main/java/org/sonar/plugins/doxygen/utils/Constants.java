@@ -40,16 +40,6 @@ public final class Constants {
   public static final String DEPLOYMENT_URL_DESC =
       "URL to display the generated documentation. <br />"
         + "Sonar server can be used to access the documentation.";
-
-  // =========================================================================
-  // Doxygen Path
-  // =========================================================================
-  public static final String DOXYGEN_PATH = "sonar.doxygen.path";
-  public static final String DOXYGEN_PATH_DV = "doxygen";
-  public static final String DOXYGEN_PATH_NAME = "Path to doxygen application";
-  public static final String DOXYGEN_PATH_DESC =
-      "Path to doxygen application. If empty will use the one in PATH <br />";
-  
   
   // =========================================================================
   // Doxygen Custom Properties
