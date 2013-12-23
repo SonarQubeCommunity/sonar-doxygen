@@ -31,9 +31,9 @@
     <url>http://bamboo.ci.codehaus.org/browse/SONAR-DOXYGEN</url>
   </ciManagement>
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/doxygen</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/doxygen</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
+    <connection>scm:git:https://github.com/SonarCommunity/sonar-doxygen.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-doxygen.git</developerConnection>
+    <url>https://github.com/SonarCommunity/sonar-doxygen</url>
   </scm>
   
   <licenses>
