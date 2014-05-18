@@ -1,6 +1,6 @@
 /*
- * Sonar Doxygen Plugin
- * Copyright (C) 2012 David FRANCOIS
+ * SonarQube Doxygen Plugin
+ * Copyright (C) 2012 SonarSource
  * dev@sonar.codehaus.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
