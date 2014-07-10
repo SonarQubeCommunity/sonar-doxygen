@@ -36,10 +36,12 @@ public class DoxygenPage extends AbstractRubyTemplate implements RubyRailsPage {
     return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
   }
 
+  @Override
   public String getId() {
     return getClass().getName();
   }
 
+  @Override
   public String getTitle() {
     return "Documentation";
   }

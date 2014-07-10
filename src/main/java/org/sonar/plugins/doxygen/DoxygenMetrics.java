@@ -49,9 +49,7 @@ public class DoxygenMetrics implements Metrics {
       .setDomain(CoreMetrics.DOMAIN_GENERAL)
       .create();
   
-
-  // getMetrics() method is defined in the Metrics interface and is used by
-  // Sonar to retrieve the list of new Metric
+  @Override
   public List<Metric> getMetrics() {
     return Arrays.asList(DOCUMENTATION_URL, ERROR_MESSAGE, DISPLAY_DOC);
   }
