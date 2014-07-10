@@ -18,27 +18,17 @@
 
 package org.sonar.plugins.doxygen;
 
-import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.RubyRailsPage;
-import org.sonar.api.web.UserRole;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
-@NavigationSection({NavigationSection.RESOURCE_TAB})
-@UserRole(UserRole.CODEVIEWER)
-public class DoxygenTab extends AbstractRubyTemplate implements RubyRailsPage {
-
-  @Override
-  protected String getTemplatePath() {
-
-    return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
-  }
-
-  public String getId() {
-    return getClass().getName();
-  }
-
-  public String getTitle() {
-    return "Documentation";
-  }
-
+/**
+ *
+ * @author jocs
+ */
+public class DoxygenPluginTest {
+  @Test
+  public void testGetExtensions() throws Exception {
+    DoxygenPlugin plugin = new DoxygenPlugin();
+    assertEquals(6, plugin.getExtensions().size());
+  }  
 }

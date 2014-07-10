@@ -18,83 +18,58 @@
 
 package org.sonar.plugins.doxygen;
 
-import org.sonar.api.Plugin;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.plugins.doxygen.utils.Constants;
+import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.List;
+import org.sonar.api.PropertyType;
+import org.sonar.api.SonarPlugin;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 
-/**
- * This class is the entry point for all extensions
- */
-@Properties({
-
-  @Property(key = Constants.DEPLOYMENT_URL, name = Constants.DEPLOYMENT_URL_NAME,
-    description = Constants.DEPLOYMENT_URL_DESC),
-
-  @Property(key = Constants.DEPLOYMENT_PATH, name = Constants.DEPLOYMENT_PATH_NAME,
-    description = Constants.DEPLOYMENT_PATH_DESC),
-
-  @Property(key = Constants.GENERATE_DOC_EXECUTION, defaultValue = Constants.GENERATE_DOC_EXECUTION_DV,
-    name = Constants.GENERATE_DOC_EXECUTION_NAME, description = Constants.GENERATE_DOC_EXECUTION_DESC,
-    global = false, project = true),
-
-  @Property(key = Constants.EXCLUDE_FILES, name = Constants.EXCLUDE_FILES_NAME,
-    description = Constants.EXCLUDE_FILES_DESC, global = false, project = true),
-
-  @Property(key = Constants.CUSTOM_PATH, name = Constants.CUSTOM_PATH_NAME,
-    description = Constants.CUSTOM_PATH_DESC, project = true),
-
-  @Property(key = Constants.CLASS_GRAPH, defaultValue = Constants.CLASS_GRAPH_DV + "",
-    name = Constants.CLASS_GRAPH_NAME, global = false, project = true),
-
-  @Property(key = Constants.CALL_GRAPH, defaultValue = Constants.CALL_GRAPH_DV + "",
-    name = Constants.CALL_GRAPH_NAME, global = false, project = true),
-
-  @Property(key = Constants.CALLER_GRAPH, defaultValue = Constants.CALLER_GRAPH_DV + "",
-    name = Constants.CALLER_GRAPH_NAME, global = false, project = true),
-
-  @Property(key = Constants.DOXYGEN_PROPERTIES_PATH, defaultValue = Constants.DOXYGEN_PROPERTIES_PATH_DV + "",
-    name = Constants.DOXYGEN_PROPERTIES_PATH_NAME, description = Constants.DOXYGEN_PROPERTIES_PATH_DESC,
-    global = false, project = true)     
-})
-public class DoxygenPlugin implements Plugin {
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getKey() {
-    return "Documentation";
+public class DoxygenPlugin extends SonarPlugin {
+  
+  public static final String DOXYGEN_ENABLE_PROPERTY_KEY = "sonar.doxygen.enable";
+  public static final String DEPLOYMENT_URL = "sonar.doxygen.url";
+    
+  public static List<PropertyDefinition> generalProperties() {
+    String subcateg = "General";
+    return ImmutableList.of(
+      PropertyDefinition
+        .builder(DOXYGEN_ENABLE_PROPERTY_KEY)
+        .defaultValue("false")
+        .name("Disable Doxygen Import")
+        .description("Whether or not the plugin should link the current project to a external doxygen documentation")
+        .subCategory(subcateg)
+        .type(PropertyType.BOOLEAN)
+        .onQualifiers(Qualifiers.PROJECT)
+        .index(1)
+        .build(),
+      PropertyDefinition            
+        .builder(DEPLOYMENT_URL)
+        .name("Link of documentation")
+        .description("Documentation server url")
+        .subCategory(subcateg)
+.onQualifiers(Qualifiers.PROJECT)
+        .index(2)
+        .build());
   }
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getName() {
-    return "Plugin Documentation";
-  }
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getDescription() {
-    return "Generate project documentation";
-  }
-
-  // This is where you're going to declare all your Sonar extensions
+  
+  @Override
   public List getExtensions() {
-    return Arrays.asList(DoxygenMetrics.class, DoxygenPostJob.class, DoxygenPage.class,
-        DoxygenTab.class, DoxygenDecorator.class);
+    List<Object> extensions = new ArrayList<Object>();
+    extensions.add(DoxygenMetrics.class);
+    extensions.add(DoxygenSensor.class);
+    extensions.add(DoxygenPage.class);
+    extensions.add(DoxygenTab.class);
+    
+    extensions.addAll(generalProperties());
+    
+    return extensions;
   }
 
   @Override
   public String toString() {
     return getClass().getSimpleName();
-  }
-
+  } 
 }

@@ -18,50 +18,41 @@
 
 package org.sonar.plugins.doxygen;
 
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.Metrics;
-import org.sonar.plugins.doxygen.utils.Constants;
-
 import java.util.Arrays;
 import java.util.List;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metrics;
 
 public class DoxygenMetrics implements Metrics {
-
-  public static final String DOXYGEN_URL_KEY = "doxygen_url";
-  public static final Metric DOXYGEN_URL = new Metric.Builder(DOXYGEN_URL_KEY, "Doxygen Url", Metric.ValueType.DATA)
-      .setDescription("URL of Doxygen Documentation.")
-      .setDirection(0)
-      .setQualitative(false)
-      .setDomain(Constants.DOXYGEN_DOMAIN)
-      .create();
-
-  public static final String WARNING_MESSAGE_KEY = "warning_message";
-  public static final Metric WARNING_MESSAGE = new Metric.Builder(WARNING_MESSAGE_KEY, "Warning Message", Metric.ValueType.DATA)
-      .setDescription("Warning Message")
-      .setDirection(0)
-      .setQualitative(false)
-      .setDomain(Constants.DOXYGEN_DOMAIN)
-      .create();
 
   public static final String ERROR_MESSAGE_KEY = "error_message";
   public static final Metric ERROR_MESSAGE = new Metric.Builder(ERROR_MESSAGE_KEY, "Error Message", Metric.ValueType.DATA)
       .setDescription("Error Message")
       .setDirection(0)
-      .setQualitative(false)
-      .setDomain(Constants.DOXYGEN_DOMAIN)
+      .setDomain(CoreMetrics.DOMAIN_GENERAL)
       .create();
 
   public static final String DISPLAY_DOC_KEY = "display_doc";
-  public static final Metric DISPLAY_DOC = new Metric.Builder(DISPLAY_DOC_KEY, "Display doc", Metric.ValueType.BOOL)
+  public static final Metric DISPLAY_DOC = new Metric.Builder(DISPLAY_DOC_KEY, "Display doc", Metric.ValueType.STRING)
       .setDescription("Display the doxygen documentation")
       .setDirection(0)
       .setQualitative(false)
-      .setDomain(Constants.DOXYGEN_DOMAIN)
+      .setDomain(CoreMetrics.DOMAIN_GENERAL)
       .create();
+  
+  public static final String DOCUMENTATION_URL_KEY = "documentation_url";
+  public static final Metric DOCUMENTATION_URL = new Metric.Builder(DOCUMENTATION_URL_KEY, "Documentation url", Metric.ValueType.STRING)
+      .setDescription("Url of documentation")
+      .setDirection(Metric.DIRECTION_NONE)
+      .setQualitative(false)
+      .setDomain(CoreMetrics.DOMAIN_GENERAL)
+      .create();
+  
 
   // getMetrics() method is defined in the Metrics interface and is used by
   // Sonar to retrieve the list of new Metric
   public List<Metric> getMetrics() {
-    return Arrays.asList(DOXYGEN_URL, WARNING_MESSAGE, ERROR_MESSAGE, DISPLAY_DOC);
+    return Arrays.asList(DOCUMENTATION_URL, ERROR_MESSAGE, DISPLAY_DOC);
   }
 }
