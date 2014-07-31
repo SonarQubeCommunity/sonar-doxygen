@@ -30,7 +30,7 @@ public class DoxygenTab extends AbstractRubyTemplate implements RubyRailsPage {
   @Override
   protected String getTemplatePath() {
 
-    return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
+    return "/org/sonar/plugins/doxygen/tab_page.html.erb";
   }
 
   @Override
