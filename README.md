@@ -1,3 +1,5 @@
+[![Build Status](https://sonarplugins.ci.cloudbees.com/job/doxygen/buildStatus/icon?job=check-manifest)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
+
 # Doxygen Plugin
 
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin generates [Doxygen](http://www.stack.nl/~dimitri/doxygen/) documentation for any configured language. 
