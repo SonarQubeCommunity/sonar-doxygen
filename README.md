@@ -1,4 +1,4 @@
-[![Build Status](https://sonarplugins.ci.cloudbees.com/job/doxygen/buildStatus/icon?job=check-manifest)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
+[![Build Status](https://sonarplugins.ci.cloudbees.com/buildStatus/icon?job=doxygen)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
 
 # Doxygen Plugin
 
