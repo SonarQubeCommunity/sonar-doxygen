@@ -14,7 +14,7 @@
   
   <name>Doxygen</name>
   <description>Generate project documentation</description>
-  <url>http://docs.codehaus.org/display/SONAR/Doxygen+plugin</url>    
+  <url>https://github.com/SonarCommunity/sonar-doxygen</url>    
   <inceptionYear>2012</inceptionYear>
   <organization>
     <name>SonarSource</name>
