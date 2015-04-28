@@ -1,8 +1,5 @@
 
-
-[![Build Status](https://johnjohndoe.ci.cloudbees.com/buildStatus/icon?job=TypedPreferences)](https://johnjohndoe.ci.cloudbees.com/job/TypedPreferences/)
-
-[![Build Status](https://sonarplugins.ci.cloudbees.com/buildStatus/icon?job=doxygen)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
+[![Build Status](https://sonarplugins.ci.cloudbees.com/job/doxygen/buildStatus/icon?job=check-manifest)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
 
 # Doxygen Plugin
 
