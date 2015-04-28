@@ -18,10 +18,8 @@
 
 package org.sonar.plugins.doxygen;
 
-import org.sonar.api.resources.Java;
 import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.ResourceLanguage;
 import org.sonar.api.web.RubyRailsPage;
 import org.sonar.api.web.UserRole;
 
