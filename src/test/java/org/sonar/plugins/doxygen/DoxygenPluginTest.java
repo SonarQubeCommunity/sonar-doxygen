@@ -29,6 +29,6 @@ public class DoxygenPluginTest {
   @Test
   public void testGetExtensions() throws Exception {
     DoxygenPlugin plugin = new DoxygenPlugin();
-    assertEquals(6, plugin.getExtensions().size());
+    assertEquals(5, plugin.getExtensions().size());
   }  
 }

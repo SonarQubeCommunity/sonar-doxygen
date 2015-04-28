@@ -25,7 +25,6 @@ import org.sonar.api.web.ResourceLanguage;
 import org.sonar.api.web.RubyRailsPage;
 import org.sonar.api.web.UserRole;
 
-@ResourceLanguage({Java.KEY, "c++"})
 @NavigationSection({NavigationSection.RESOURCE})
 @UserRole(UserRole.CODEVIEWER)
 public class DoxygenPage extends AbstractRubyTemplate implements RubyRailsPage {

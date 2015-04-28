@@ -61,8 +61,7 @@ public class DoxygenPlugin extends SonarPlugin {
     extensions.add(DoxygenMetrics.class);
     extensions.add(DoxygenSensor.class);
     extensions.add(DoxygenPage.class);
-    extensions.add(DoxygenTab.class);
-    
+
     extensions.addAll(generalProperties());
     
     return extensions;
