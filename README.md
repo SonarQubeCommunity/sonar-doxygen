@@ -5,7 +5,9 @@
 ## Quickstart
 
 Setup a SonarQube instance
+
 Install the plugin (see [Installation](https://github.com/SonarCommunity/sonar-doxygen/wiki))
+
 Run an analysis (see [Run Analysis](https://github.com/SonarCommunity/sonar-doxygen/wiki))
 
 ## License
