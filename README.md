@@ -1,5 +1,4 @@
-
-[![Build Status](https://sonarplugins.ci.cloudbees.com/job/doxygen/buildStatus/icon?job=check-manifest)](https://sonarplugins.ci.cloudbees.com/job/doxygen)
+[![Nemo Quality Gate status](https://nemo.sonarqube.org/api/badges/gate?key=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)](https://nemo.sonarqube.org/overview?id=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)
 
 # Doxygen Plugin
 
