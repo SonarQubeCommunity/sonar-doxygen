@@ -14,7 +14,7 @@
   
   <name>Doxygen</name>
   <description>Generate project documentation</description>
-  <url>https://github.com/SonarCommunity/sonar-doxygen</url>    
+  <url>https://github.com/SonarQubeCommunity/sonar-doxygen</url>    
   <inceptionYear>2012</inceptionYear>
   <organization>
     <name>SonarSource</name>
@@ -29,17 +29,13 @@
   </licenses>
   
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/15460</url>
+    <system>GitHub Issues</system>
+    <url>https://github.com/SonarQubeCommunity/sonar-doxygen/issues</url>
   </issueManagement>
-  <ciManagement>
-    <system>BAMBOO</system>
-    <url>http://bamboo.ci.codehaus.org/browse/SONAR-DOXYGEN</url>
-  </ciManagement>
   <scm>
-    <connection>scm:git:https://github.com/SonarCommunity/sonar-doxygen.git</connection>
-    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-doxygen.git</developerConnection>
-    <url>https://github.com/SonarCommunity/sonar-doxygen</url>
+    <connection>scm:git:https://github.com/SonarQubeCommunity/sonar-doxygen.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarQubeCommunity/sonar-doxygen.git</developerConnection>
+    <url>https://github.com/SonarQubeCommunity/sonar-doxygen</url>
   </scm>
     
   <properties>
