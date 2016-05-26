@@ -1,6 +1,5 @@
-[![Nemo Quality Gate status](https://nemo.sonarqube.org/api/badges/gate?key=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)](https://nemo.sonarqube.org/overview?id=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)
-
 # Doxygen Plugin
+[![Build Status](https://api.travis-ci.org/SonarQubeCommunity/sonar-doxygen.svg)](https://travis-ci.org/SonarQubeCommunity/sonar-doxygen) [![Nemo Quality Gate status](https://nemo.sonarqube.org/api/badges/gate?key=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)](https://nemo.sonarqube.org/overview?id=org.codehaus.sonar-plugins%3Asonar-doxygen-plugin)
 
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin generates [Doxygen](http://www.stack.nl/~dimitri/doxygen/) documentation for any configured language. 
 
@@ -8,9 +7,9 @@
 
 Setup a SonarQube instance
 
-Install the plugin (see [Installation](https://github.com/SonarCommunity/sonar-doxygen/wiki))
+Install the plugin (see [Installation](https://github.com/SonarQubeCommunity/sonar-doxygen/wiki))
 
-Run an analysis (see [Run Analysis](https://github.com/SonarCommunity/sonar-doxygen/wiki))
+Run an analysis (see [Run Analysis](https://github.com/SonarQubeCommunity/sonar-doxygen/wiki))
 
 ## License
 
