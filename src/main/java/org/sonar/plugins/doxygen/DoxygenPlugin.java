@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (C) 2012 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (c) 2012-2016 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.sonar.plugins.doxygen;
 
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.List;
+import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
-import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
-public class DoxygenPlugin extends SonarPlugin {
+public class DoxygenPlugin implements Plugin {
   
   public static final String DOXYGEN_ENABLE_PROPERTY_KEY = "sonar.doxygen.enable";
   public static final String DEPLOYMENT_URL = "sonar.doxygen.url";
     
   public static List<PropertyDefinition> generalProperties() {
     String subcateg = "General";
-    return ImmutableList.of(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition
         .builder(DOXYGEN_ENABLE_PROPERTY_KEY)
         .defaultValue("false")
@@ -50,25 +49,25 @@ public class DoxygenPlugin extends SonarPlugin {
         .name("Link of documentation")
         .description("Documentation server url")
         .subCategory(subcateg)
-.onQualifiers(Qualifiers.PROJECT)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(2)
-        .build());
+        .build()
+      ));
   }
   
-  @Override
-  public List getExtensions() {
-    List<Object> extensions = new ArrayList<Object>();
-    extensions.add(DoxygenMetrics.class);
-    extensions.add(DoxygenSensor.class);
-    extensions.add(DoxygenPage.class);
-
-    extensions.addAll(generalProperties());
-    
-    return extensions;
-  }
 
   @Override
   public String toString() {
     return getClass().getSimpleName();
   } 
+
+  @Override
+  public void define(Context context) {
+    List<Object> extensions = new ArrayList<>();
+    extensions.add(DoxygenMetrics.class);
+    extensions.add(DoxygenSensor.class);
+    extensions.add(DoxygenPage.class);
+    extensions.addAll(generalProperties());
+    context.addExtensions(extensions);    
+  }
 }

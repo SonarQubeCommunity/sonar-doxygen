@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (C) 2012 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (c) 2012-2016 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.sonar.plugins.doxygen;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeVersion;
 
 /**
  *
@@ -28,7 +30,9 @@ import org.junit.Test;
 public class DoxygenPluginTest {
   @Test
   public void testGetExtensions() throws Exception {
-    DoxygenPlugin plugin = new DoxygenPlugin();
-    assertEquals(5, plugin.getExtensions().size());
-  }  
+   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
+   DoxygenPlugin plugin = new DoxygenPlugin();
+   plugin.define(context);
+   assertThat(context.getExtensions()).hasSize(5);
+  }
 }

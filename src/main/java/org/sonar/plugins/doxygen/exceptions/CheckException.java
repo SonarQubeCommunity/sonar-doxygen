@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (C) 2012 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (c) 2012-2016 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.sonar.plugins.doxygen.exceptions;
 
 public class CheckException extends Exception {
