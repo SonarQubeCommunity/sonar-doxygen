@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (c) 2012-2016 SonarSource SA
- * mailto:contact AT sonarsource DOT com
+ * Copyright (c) 2012-2018 SonarSource SA
+ * mailto:info AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,15 @@
  */
 package org.sonar.plugins.doxygen;
 
-import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.RubyRailsPage;
-import org.sonar.api.web.UserRole;
-
-@NavigationSection({NavigationSection.RESOURCE})
-@UserRole(UserRole.CODEVIEWER)
-public class DoxygenPage extends AbstractRubyTemplate implements RubyRailsPage {
-
+import org.sonar.api.web.page.Context;
+import org.sonar.api.web.page.Page;
+import static org.sonar.api.web.page.Page.Scope.COMPONENT;
+import org.sonar.api.web.page.PageDefinition;
+ 
+public class DoxygenPage implements PageDefinition {
   @Override
-  protected String getTemplatePath() {
-
-    return "/org/sonar/plugins/doxygen/documentation_page.html.erb";
+  public void define(Context context) {
+    context
+      .addPage(Page.builder("doxygen/documentation_page").setName("Doxygen").setScope(COMPONENT).build());
   }
-
-  @Override
-  public String getId() {
-    return getClass().getName();
-  }
-
-  @Override
-  public String getTitle() {
-    return "Documentation";
-  }
-
 }

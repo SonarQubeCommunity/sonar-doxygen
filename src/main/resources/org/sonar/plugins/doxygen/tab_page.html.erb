@@ -1,9 +1,0 @@
-<% if @snapshot.root_snapshot.measure('error_message')                                                           %>
-    <div class="error" id="error"><span id="errormsg"><%= @snapshot.root_snapshot.measure('error_message').data %></span></div>
-<% else                                                                       %>
-<%    if @snapshot.root_snapshot.measure('display_doc').data.eql? "true"                                                             %>
-         <p><iframe src="<%= @snapshot.root_snapshot.measure('documentation_url').data -%>" frameborder="0" style="border-width:1px;border-style:solid;border-collapse:collapse;border-color:grey;" width="100%" height="800" /></p>     
-<%    else                                                                    %>
-        <div class="warning" id="warning"><span id="warningmsg">Documentation Link is disabled. <br />Set the property 'sonar.doxygen.enable' to <i>true</i> in order to enable documentation generation and run an analysis.</span></div>
-<%    end                                                                     %>
-<% end                                                                        %>

@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>36</version>
+    <version>44</version>
   </parent>
   
   <artifactId>sonar-doxygen-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
   
   <name>Doxygen</name>
   <description>Generate project documentation</description>
@@ -39,7 +39,7 @@
   </scm>
     
   <properties>
-    <sonar.version>5.6</sonar.version>
+    <sonar.version>6.7</sonar.version>
     <sonar.pluginName>Doxygen</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.doxygen.DoxygenPlugin</sonar.pluginClass>   
     <license.title>SonarQube Doxygen Plugin</license.title>

@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (c) 2012-2016 SonarSource SA
- * mailto:contact AT sonarsource DOT com
+ * Copyright (c) 2012-2018 SonarSource SA
+ * mailto:info AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

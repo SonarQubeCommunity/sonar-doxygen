@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (c) 2012-2016 SonarSource SA
- * mailto:contact AT sonarsource DOT com
+ * Copyright (c) 2012-2018 SonarSource SA
+ * mailto:info AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,6 @@ import org.sonar.api.measures.Metrics;
 
 public class DoxygenMetrics implements Metrics {
 
-  public static final String ERROR_MESSAGE_KEY = "error_message";
-  public static final Metric ERROR_MESSAGE = new Metric.Builder(ERROR_MESSAGE_KEY, "Error Message", Metric.ValueType.DATA)
-      .setDescription("Error Message")
-      .setDirection(0)
-      .setDomain(CoreMetrics.DOMAIN_GENERAL)
-      .create();
-
   public static final String DISPLAY_DOC_KEY = "display_doc";
   public static final Metric DISPLAY_DOC = new Metric.Builder(DISPLAY_DOC_KEY, "Display doc", Metric.ValueType.STRING)
       .setDescription("Display the doxygen documentation")
@@ -50,6 +43,6 @@ public class DoxygenMetrics implements Metrics {
   
   @Override
   public List<Metric> getMetrics() {
-    return Arrays.asList(DOCUMENTATION_URL, ERROR_MESSAGE, DISPLAY_DOC);
+    return Arrays.asList(DOCUMENTATION_URL, DISPLAY_DOC);
   }
 }
