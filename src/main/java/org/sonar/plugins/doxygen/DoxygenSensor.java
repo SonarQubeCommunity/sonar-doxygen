@@ -1,7 +1,7 @@
 /*
  * SonarQube Doxygen Plugin
- * Copyright (C) 2012 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (c) 2012-2018 SonarSource SA
+ * mailto:info AT sonarsource DOT com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,60 +15,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.sonar.plugins.doxygen;
 
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PersistenceMode;
-import org.sonar.api.resources.Project;
+import org.sonar.api.measures.Metric;
 
 public class DoxygenSensor implements Sensor {
 
   public static final Logger LOGGER = LoggerFactory.getLogger(DoxygenSensor.class.getName());
-  private final Settings settings;
+  private final Configuration settings;
 
-  public DoxygenSensor(final Settings settings) {
+  public DoxygenSensor(final Configuration settings) {
     this.settings = settings;  
   }
 
   private boolean shouldExecute() {
-    return this.settings.getBoolean(DoxygenPlugin.DOXYGEN_ENABLE_PROPERTY_KEY);
+    return this.settings.getBoolean(DoxygenPlugin.DOXYGEN_ENABLE_PROPERTY_KEY).get();
   }  
-
+  
   @Override
-  public void analyse(Project project, SensorContext context) {
-    if(!shouldExecute()) {
-      context.saveMeasure(new Measure(DoxygenMetrics.DISPLAY_DOC, "false"));   
-      return;
-    }
-    
-    if(this.settings.getString(DoxygenPlugin.DEPLOYMENT_URL) == null || this.settings.getString(DoxygenPlugin.DEPLOYMENT_URL).equals("")) {
-      LOGGER.error("The global property '{}' is not set. Set it in SONAR and run another analysis.", DoxygenPlugin.DEPLOYMENT_URL);      
-      context.saveMeasure(new Measure(DoxygenMetrics.ERROR_MESSAGE, "\"The global property '" + DoxygenPlugin.DEPLOYMENT_URL + "' is not set. Set it in SONAR and run another analysis."));
-      return;
-    } else {
-      LOGGER.info("The global property '{}' set to '{}'.", DoxygenPlugin.DEPLOYMENT_URL, this.settings.getString(DoxygenPlugin.DEPLOYMENT_URL));    
-    }
-    
-    Measure measure = new Measure(DoxygenMetrics.DISPLAY_DOC);
-    measure.setData("true");
-    measure.setPersistenceMode(PersistenceMode.DATABASE);    
-    context.saveMeasure(measure);
-    
-    measure = new Measure(DoxygenMetrics.DOCUMENTATION_URL);
-    measure.setData(this.settings.getString(DoxygenPlugin.DEPLOYMENT_URL));
-    measure.setPersistenceMode(PersistenceMode.DATABASE);    
-    context.saveMeasure(measure);
-    
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.global();
   }
 
   @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return this.settings.getBoolean(DoxygenPlugin.DOXYGEN_ENABLE_PROPERTY_KEY);
+  public void execute(SensorContext context) {
+    if(!shouldExecute()) {     
+        context.<String>newMeasure()
+          .forMetric(DoxygenMetrics.DISPLAY_DOC)
+          .on(context.module())
+          .withValue("false")
+          .save();
+      return;
+    }
+    
+    if(!this.settings.get(DoxygenPlugin.DEPLOYMENT_URL).isPresent() || this.settings.get(DoxygenPlugin.DEPLOYMENT_URL).get().equals("")) {
+      LOGGER.error("The global property '{}' is not set. Set it in SONAR and run another analysis.", DoxygenPlugin.DEPLOYMENT_URL);
+        context.<String>newMeasure()
+          .forMetric(DoxygenMetrics.DISPLAY_DOC)
+          .on(context.module())
+          .withValue("false")
+          .save();
+      return;
+    } else {
+      LOGGER.info("The global property '{}' set to '{}'.", DoxygenPlugin.DEPLOYMENT_URL, this.settings.get(DoxygenPlugin.DEPLOYMENT_URL).get());    
+    }
+    
+    context.<String>newMeasure()
+      .forMetric(DoxygenMetrics.DISPLAY_DOC)
+      .on(context.module())
+      .withValue("true")
+      .save();
+        
+    context.<String>newMeasure()
+      .forMetric(DoxygenMetrics.DOCUMENTATION_URL)
+      .on(context.module())
+      .withValue(this.settings.get(DoxygenPlugin.DEPLOYMENT_URL).get())
+      .save();
   }
 }
